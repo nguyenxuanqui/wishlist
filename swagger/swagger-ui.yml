@@ -1,0 +1,223 @@
+swagger: "2.0"
+info:
+  description: "This is swagger documentation for Wishlist API"
+  version: "1.0.0"
+  title: "Wishlist API"
+  contact:
+    email: "nxqstar@gmail.com"
+host: "localhost:3000"
+basePath: "/wishlists/"
+schemes:
+  - "http"
+  - "https"
+paths:
+  /:
+    get:
+      tags:
+        - "Get Wishlists"
+      operationId: "/"
+      description: "GET localhost:3000/wishlists"
+      produces:
+        - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/wishlists"
+        400:
+          description: "Bad Request!"
+    post:
+      description: "POST localhost:3000/wishlists?name=Market"
+      tags:
+        - "Create Wishlist"
+      parameters:
+        - name: name
+          require: true
+          in: query
+          type: string
+      responses:
+        200:
+          description: "Wishlist added"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Wishlist added"
+        400:
+          description: "Bad Request!"
+  /{id}:
+    get:
+      description: "GET localhost:3000/wishlists/2"
+      tags:
+        - "Get Wishlists By Id"
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/wishlist"
+        400:
+          description: "Bad Request!"
+    delete:
+      description: "DELETE localhost:3000/wishlists/2"
+      tags:
+        - "Delete a wishlist and all wishes in it"
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: "Wishlist deleted"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Wishlist deleted"
+        400:
+          description: "Bad Request!"
+  /{id}/wishes/:
+    post:
+      description: "POST localhost:3000/wishlists/2/wishes/?name=AmongUs"
+      tags:
+        - "Add Wish to Wishlist"
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: name
+          required: true
+          in: query
+          type: string
+      responses:
+        200:
+          description: "Wish added"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Wish added"
+        400:
+          description: "Bad Request!"
+  /{id}/wishes/{wid}:
+    put:
+      description: "PUT localhost:3000/wishlists/2/wishes/1?name=Dota3&state=true"
+      tags:
+        - "Update a Wish the Wishlist"
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: wid
+          required: true
+          in: path
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: name
+          required: true
+          in: query
+          type: string
+        - name: state
+          required: true
+          in: query
+          type: boolean
+      responses:
+        200:
+          description: "Wish updated"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Wish updated"
+        400:
+          description: "Bad Request!"
+    delete:
+      description: "DELETE localhost:3000/wishlists/1/wishes/2"
+      tags:
+        - "Delete a wish in the wishlist"
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: wid
+          required: true
+          in: path
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: "Wish deleted"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Wish deleted"
+        400:
+          description: "Bad Request!"
+
+definitions:
+  wishlists:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: interger
+          example: 1
+        name:
+          type: string
+          example: "SteamWishlist"
+        createTime:
+          type: string
+          example: "2020-11-10 14:06:36.350146"
+        owner:
+          type: string
+          example: "you"
+  wishlist:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: interger
+          example: 1
+        name:
+          type: string
+          example: "Dota2"
+        state:
+          type: boolean
+          example: 0
+        wishlist_id:
+          type: interger
+          example: 1
+        createTime:
+          type: string
+          example: "2020-11-10 14:06:36.350146"

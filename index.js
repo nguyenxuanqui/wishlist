@@ -1,3 +1,4 @@
+const cors = require('cors');
 require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -11,13 +12,13 @@ app.use(
 	bodyParser.urlencoded({
 		extended: true
 	})
-)
+);
 
 app.get('/', (req, res) => {
-	res.json({message: 'Hello world'});
-})
+	res.json({message: 'Welcome to Wishlist API, please access localhost:3000/wishlists/api-docs to see the UI'});
+});
 
-app.use('/wishlist', wishlist);
+app.use('/wishlists', wishlist);
 
 app.listen(port, () =>{
 	console.log(`Listening on port ${port}`);
