@@ -9,7 +9,7 @@ async function initDb(){
 exports.handleGetWishlists = async (req, res) => {
 	let rows = await postgreService.getWishlists();
 	
-	res.status(200).json({data: rows});
+	res.status(200).json(rows);
 };
 
 exports.handleGetWishlistById = async(req, res) =>{
@@ -20,8 +20,8 @@ exports.handleGetWishlistById = async(req, res) =>{
     }
 
 	let rows = await postgreService.getWishlistById(id);
-	
-	res.status(200).json({data: rows});
+
+	res.status(200).json(rows);
 };
 
 exports.handleCreateWishlist = async(req, res) =>{
@@ -32,8 +32,11 @@ exports.handleCreateWishlist = async(req, res) =>{
 	}
 
 	let result = await postgreService.createWishlist(name);
+    let result_obj = {
+        id: result.rows[0].id
+    };
 
-    checkRowCountAndResponse(res, result.rowCount, 200, "Wishlist Added");
+    checkRowCountAndResponse(res, result.rowCount, 200, "Wishlist Added", result_obj);
 };
 
 exports.handleAddWish = async(req, res) =>{
@@ -45,8 +48,11 @@ exports.handleAddWish = async(req, res) =>{
     }
 
     let result = await postgreService.addWish(id, name);
+    let result_obj = {
+        id: result.rows[0].id
+    };
 
-    checkRowCountAndResponse(res, result.rowCount, 200, "Wish Added");
+    checkRowCountAndResponse(res, result.rowCount, 200, "Wish Added", result_obj);
 };
 
 exports.handleUpdateWish = async(req, res) =>{
@@ -59,7 +65,11 @@ exports.handleUpdateWish = async(req, res) =>{
     }
 
     let result = await postgreService.updateWish(id, wid, name, state);
-    checkRowCountAndResponse(res, result.rowCount, 200, "Wish Updated");
+    let result_obj = {
+        id: result.rows[0].id
+    };
+
+    checkRowCountAndResponse(res, result.rowCount, 200, "Wish Updated", result_obj);
 };
 
 exports.handleDeleteWishlist = async (req, res)=>{
@@ -90,11 +100,12 @@ function checkBadRequest(res, ...params){
 	return 0;
 }
 
-function checkRowCountAndResponse(res, rowCount, status, message){
+function checkRowCountAndResponse(res, rowCount, status, message, obj = {}){
     if(rowCount === 0){
         status = 400;
         message = "No " + message;
     }
+    let result = {message: message, ...obj};
 
-    res.status(status).json({message: message});
+    res.status(status).json(result);
 }

@@ -51,7 +51,7 @@ exports.getWishlistById = async (id) => {
 
 exports.createWishlist = async (name) =>{
 	try{
-		let query = `INSERT INTO wishlists (name) values ('${name}')`;
+		let query = `INSERT INTO wishlists (name) values ('${name}') RETURNING id`;
 		const res = await pool.query(query);
 		return res;
 	}
@@ -62,7 +62,7 @@ exports.createWishlist = async (name) =>{
 
 exports.addWish = async(id, name) =>{
 	try{
-        let query = `INSERT INTO wishes (name, wishlist_id) select '${name}', ${id} where exists (select * from wishlists where id = ${id})`;
+        let query = `INSERT INTO wishes (name, wishlist_id) select '${name}', ${id} where exists (select * from wishlists where id = ${id}) RETURNING id`;
         const res = await pool.query(query);
         return res;
 	}
@@ -73,7 +73,7 @@ exports.addWish = async(id, name) =>{
 
 exports.updateWish = async (wishlist_id, id, name, state) =>{
     try{
-        let query = `UPDATE wishes set name='${name}', state=${state}, createTime=now() where id=${id} AND wishlist_id =${wishlist_id}`;
+        let query = `UPDATE wishes set name='${name}', state=${state}, createTime=now() where id=${id} AND wishlist_id =${wishlist_id} RETURNING id`;
         const res = await pool.query(query);
         return res;
     }
@@ -110,12 +110,3 @@ exports.deleteWish = async(wishlist_id, id) =>{
 	}
 };
 
-exports.testQuery = async () =>{
-	pool.query('SELECT * FROM qui_test', (err, data) =>{
-		if(err){
-			throw err;
-		}
-		
-		console.log("done", data.rows);
-	});
-};

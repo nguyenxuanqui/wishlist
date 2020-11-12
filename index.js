@@ -20,6 +20,9 @@ app.get('/', (req, res) => {
 
 app.use('/wishlists', wishlist);
 
-app.listen(port, () =>{
+let server = app.listen(port, () =>{
 	console.log(`Listening on port ${port}`);
 });
+
+
+module.exports = server;

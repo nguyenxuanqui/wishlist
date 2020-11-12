@@ -18,10 +18,13 @@ router.use(urlencodedParser);
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 router.get('/', wishlistController.handleGetWishlists);
+router.post('/', wishlistController.handleCreateWishlist);
+
 router.get('/:id', wishlistController.handleGetWishlistById);
 router.delete('/:id', wishlistController.handleDeleteWishlist);
-router.post('/', wishlistController.handleCreateWishlist);
+
 router.post('/:id/wishes/', wishlistController.handleAddWish);
+
 router.put('/:id/wishes/:wid', wishlistController.handleUpdateWish);
 router.delete('/:id/wishes/:wid', wishlistController.handleDeleteWish);
 

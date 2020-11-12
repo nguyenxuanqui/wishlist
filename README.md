@@ -51,6 +51,14 @@ This project has 7 APIs to serve the requirements about wishlists.
 You can also use the swagger UI to test by fill in value in the field.
 Link: localhost:3000/wishlists/api-docs.
 
+6. Unit test
+Check and modify the value inside the file with path ./test/wishlist.js.
+Run:
+
+```sh
+npm test
+```
+
 ### Contact
 Nguyen Xuan Qui - nxqstar@gmail.com
 Project Link: https://github.com/nguyenxuanqui
